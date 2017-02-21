@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rejoindre K'rément Libre</title>
+    <meta name="description"
+          content="Formulaire d'inscription à Krement Libre"/>
+    <meta name="keywords" content="krementlibre stripe rejoindre libre free opensource"/>
+    <meta name="author" content="K'rement Libre"/>
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="css/demo.css"/>
+    <link rel="stylesheet" type="text/css" href="css/component.css"/>
+    <link rel="stylesheet" type="text/css" href="css/cs-select.css"/>
+    <link rel="stylesheet" type="text/css" href="css/cs-skin-boxes.css"/>
+    <script src="js/modernizr.custom.js"></script>
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous"/>
+</head>
+<body>
+<div class="container">
+
+    <div class="fs-form-wrap" id="fs-form-wrap">
+        <div class="fs-title">
+            <h1>Rejoindre K'rément Libre !</h1>
+        </div>
+        <form id="register" class="fs-form fs-form-full" autocomplete="off">
+            <ol class="fs-fields">
+                <li>
+                    <label class="fs-field-label fs-anim-upper" for="name"
+                           data-info="Nous ne partagerons pas vos données personnelles.">Quels sont vos nom et prénom ?</label>
+                    <input class="fs-anim-lower" id="name" name="name" type="text" placeholder="John Doe" required/>
+                </li>
+                <li>
+                    <label class="fs-field-label fs-anim-upper" for="mail"
+                           data-info="Nous ne partagerons pas votre e-mail.">Quelle est votre adresse e-mail ?</label>
+                    <input class="fs-anim-lower" id="mail" name="mail" type="email" placeholder="nom.prenom@mail.com"
+                           required/>
+                </li>
+                <li>
+                    <label class="fs-field-label fs-anim-upper" for="job">Quel est votre statut professionnel & métier ?</label>
+                    <input class="fs-anim-lower" id="job" name="job" type="text" placeholder="Etudiant / Freelance en dev"
+                           />
+                </li>
+                <li data-input-trigger>
+                    <label class="fs-field-label fs-anim-upper" data-info="Juste pour information">Vous adhérez à l'association en tant que :</label>
+                    <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
+                        <span><input id="q3b" name="type" type="radio" value="alone"/><label for="q3b"
+                                                                                                class="radio-conversion">Particulier</label></span>
+                        <span><input id="q3c" name="type" type="radio" value="association"/><label for="q3c"
+                                                                                            class="radio-social">Association</label></span>
+                        <span><input id="q3a" name="type" type="radio" value="business"/><label for="q3a"
+                                                                                            class="radio-mobile">Entreprise</label></span>
+                    </div>
+                </li>
+                <li>
+                    <label class="fs-field-label fs-anim-upper" for="more">Un petit mot avec tout ça ?</label>
+                    <textarea class="fs-anim-lower" id="more" name="more" placeholder="Seulement si vous le voulez ;)"></textarea>
+                </li>
+            </ol><!-- /fs-fields -->
+            <button class="fs-submit" type="submit"><i class="fa fa-cc-stripe"></i> Valider & Payer par carte en ligne</button>
+            <button class="fs-submit mt5" type="submit"><i class="fa fa-money"></i> Valider & Payer par chèque</button>
+        </form><!-- /fs-form -->
+    </div><!-- /fs-form-wrap -->
+
+</div><!-- /container -->
+<script src="js/classie.js"></script>
+<script src="js/selectFx.js"></script>
+<script src="js/fullscreenForm.js"></script>
+<script src="js/jquery.min.js"></script>
+<script>
+    (function () {
+        var formWrap = document.getElementById('fs-form-wrap');
+
+        [].slice.call(document.querySelectorAll('select.cs-select')).forEach(function (el) {
+            new SelectFx(el, {
+                stickyPlaceholder: false,
+                onChange: function (val) {
+                    document.querySelector('span.cs-placeholder').style.backgroundColor = val;
+                }
+            });
+        });
+
+        new FForm(formWrap, {
+            onReview: function () {
+                classie.add(document.body, 'overview');
+            }
+        });
+    })();
+    $('form#register').submit(function (e){
+        e.preventDefault();
+        var dataflow=$(this).serialize();
+        $.ajax({
+            url: 'submit.php',
+            type: 'POST',
+            data: dataflow
+        }).done(function (){
+            window.location.replace('pay.html');
+        });
+    });
+</script>
+</body>
+</html>
